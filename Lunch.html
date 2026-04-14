@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Special Invitation 🍽️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink: #e85d8a;
+      --pink-dark: #c44a74;
+      --pink-light: #fce8f0;
+      --blush: #fdf3f7;
+      --text: #2e1a25;
+      --muted: #9a7087;
+      --cream: #fff8fb;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* floating petals background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 20%, #fce8f055 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, #fce8f055 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, #fff0f655 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .floating-emoji {
+      position: fixed;
+      font-size: 22px;
+      opacity: 0.18;
+      animation: floatUp linear infinite;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.18; }
+      90%  { opacity: 0.18; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ─── CARD ─── */
+    .card {
+      position: relative;
+      background: #fff;
+      border-radius: 32px;
+      padding: 3rem 2.5rem 2.5rem;
+      width: min(440px, 92vw);
+      box-shadow: 0 8px 48px #e85d8a22, 0 2px 12px #e85d8a11;
+      border: 1px solid #f5d5e4;
+      text-align: center;
+      z-index: 1;
+    }
+
+    /* ─── PAGE 1 ─── */
+    #page1 { display: flex; flex-direction: column; align-items: center; gap: 0; }
+    #page2 { display: none; flex-direction: column; align-items: center; gap: 0; }
+
+    .plate {
+      font-size: 56px;
+      margin-bottom: 1rem;
+      animation: plateBob 2.5s ease-in-out infinite;
+      display: block;
+    }
+
+    @keyframes plateBob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .hearts-row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+    }
+
+    .heart {
+      color: var(--pink);
+      font-size: 18px;
+      animation: heartbeat 1.4s ease-in-out infinite;
+    }
+    .heart:nth-child(2) { animation-delay: 0.2s; }
+    .heart:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.3;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtext {
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      min-height: 72px;
+    }
+
+    .btn-yes {
+      background: var(--pink);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      padding: 14px 38px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, font-size 0.35s cubic-bezier(.34,1.56,.64,1), padding 0.35s;
+      box-shadow: 0 4px 20px #e85d8a44;
+      white-space: nowrap;
+    }
+
+    .btn-yes:hover {
+      background: var(--pink-dark);
+      transform: scale(1.06);
+    }
+
+    .btn-no {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid #e8c5d4;
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      padding: 9px 20px;
+      cursor: pointer;
+      transition: font-size 0.3s, padding 0.3s, opacity 0.3s;
+      white-space: nowrap;
+    }
+
+    .btn-no:hover { background: var(--blush); }
+
+    .teaser {
+      margin-top: 1.2rem;
+      font-size: 14px;
+      font-style: italic;
+      color: var(--pink);
+      min-height: 22px;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.4s, transform 0.4s;
+    }
+
+    .teaser.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* divider */
+    .divider {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #e8c5d4, transparent);
+      margin: 1.5rem auto 0;
+    }
+
+    /* ─── PAGE 2 ─── */
+    .yay-emoji {
+      font-size: 60px;
+      margin-bottom: 1rem;
+      display: block;
+      animation: popIn 0.5s cubic-bezier(.34,1.56,.64,1) both;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.3); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+      animation: fadeUp 0.5s 0.15s both;
+    }
+
+    .yay-sub {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 300px;
+      font-weight: 300;
+      animation: fadeUp 0.5s 0.3s both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .confetti-row {
+      margin-top: 1.6rem;
+      font-size: 24px;
+      letter-spacing: 8px;
+      animation: fadeUp 0.5s 0.45s both, sway 2s 1s ease-in-out infinite alternate;
+    }
+
+    @keyframes sway {
+      from { transform: rotate(-2deg); }
+      to   { transform: rotate(2deg); }
+    }
+
+    .date-box {
+      margin-top: 1.4rem;
+      background: var(--blush);
+      border: 1px dashed #e8c5d4;
+      border-radius: 16px;
+      padding: 0.8rem 1.4rem;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 300;
+      animation: fadeUp 0.5s 0.55s both;
+    }
+
+    .date-box strong {
+      display: block;
+      font-size: 15px;
+      color: var(--pink);
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- floating background emojis -->
+  <span class="floating-emoji" style="left:5%;  animation-duration:9s;  animation-delay:0s;">🌸</span>
+  <span class="floating-emoji" style="left:15%; animation-duration:12s; animation-delay:2s;">✨</span>
+  <span class="floating-emoji" style="left:30%; animation-duration:10s; animation-delay:4s;">🌹</span>
+  <span class="floating-emoji" style="left:50%; animation-duration:14s; animation-delay:1s;">💕</span>
+  <span class="floating-emoji" style="left:65%; animation-duration:11s; animation-delay:3s;">🌸</span>
+  <span class="floating-emoji" style="left:78%; animation-duration:8s;  animation-delay:5s;">✨</span>
+  <span class="floating-emoji" style="left:88%; animation-duration:13s; animation-delay:0.5s;">🌹</span>
+
+  <div class="card">
+
+    <!-- PAGE 1 -->
+    <div id="page1">
+      <span class="plate">🍽️</span>
+      <div class="hearts-row">
+        <span class="heart">♥</span>
+        <span class="heart">♥</span>
+        <span class="heart">♥</span>
+      </div>
+      <h1>Will you join me<br>for lunch?</h1>
+      <p class="subtext">I promise the food will be amazing ✨</p>
+
+      <div class="btn-row">
+        <button class="btn-yes" id="yesBtn" onclick="sayYes()">Yes! 🥰</button>
+        <button class="btn-no"  id="noBtn"  onclick="sayNo()">No</button>
+      </div>
+
+      <p class="teaser" id="teasingMsg"></p>
+      <div class="divider"></div>
+    </div>
+
+    <!-- PAGE 2 -->
+    <div id="page2">
+      <span class="yay-emoji">🎉</span>
+      <h2>Yay!! You said yes! 🥳</h2>
+      <p class="yay-sub">
+        I'm so so happy!! Lets eatttt —
+        I'll make sure every bite is absolutely unforgettable 💕
+      </p>
+      <div class="confetti-row">🌹 🕯️ 🍷 🌹 🕯️</div>
+      <div class="date-box">
+        <strong>See you soon! 💌</strong>
+        I'll send you the details shortly~
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const teasers = [
+      "Awww nooo, are you sure?? 🥺",
+      "Come onnn, please reconsider!! 🙏",
+      "The food's gonna be sooo good tho...",
+      "Last chance, I promise it'll be so fun! 😢",
+    ];
+
+    let noCount = 0;
+    let yesFontSize = 18;
+    let yesPadV = 14;
+    let noFontSize = 14;
+    let noPadV = 9;
+
+    function sayNo() {
+      noCount++;
+      const noBtn  = document.getElementById('noBtn');
+      const yesBtn = document.getElementById('yesBtn');
+      const msg    = document.getElementById('teasingMsg');
+
+      if (noCount >= 5) {
+        noBtn.style.display = 'none';
+      } else {
+        noFontSize = Math.max(noFontSize - 2, 4);
+        noPadV     = Math.max(noPadV - 2, 2);
+        noBtn.style.fontSize = noFontSize + 'px';
+        noBtn.style.padding  = noPadV + 'px ' + (noPadV * 2) + 'px';
+        noBtn.style.opacity  = Math.max(1 - noCount * 0.15, 0.3);
+      }
+
+      yesFontSize += 4;
+      yesPadV     += 4;
+      yesBtn.style.fontSize = yesFontSize + 'px';
+      yesBtn.style.padding  = yesPadV + 'px ' + (yesPadV * 2.2) + 'px';
+
+      if (noCount <= teasers.length) {
+        msg.textContent = teasers[noCount - 1];
+        msg.classList.add('show');
+      }
+    }
+
+    function sayYes() {
+      document.getElementById('page1').style.display = 'none';
+      const p2 = document.getElementById('page2');
+      p2.style.display = 'flex';
+    }
+  </script>
+</body>
+</html>
